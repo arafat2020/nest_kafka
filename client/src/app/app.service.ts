@@ -33,7 +33,7 @@ export class AppService implements OnModuleInit {
 
   async createUser(user: any) {
     console.log('🚀 Client sending user_created event:', user);
-    return this.kafkaClient.emit('user_created', user);
+    return this.kafkaClient.send('user_created', user);
   }
 }
 

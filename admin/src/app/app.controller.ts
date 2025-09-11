@@ -1,14 +1,15 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 
-@Controller()
+@Controller('users')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getData() {
-    return this.appService.getData();
+ @Post()
+  async createUser(@Body() user: any) {
+    await this.appService.createUser(user);
+    return { status: 'sent', user };
   }
 
   @MessagePattern('user_created')
@@ -16,4 +17,6 @@ export class AppController {
     console.log('📩 Admin received user_created event:', message.value);
     return { received: message.value };
   }
+
+
 }
