@@ -1,14 +1,6 @@
-// import { Injectable } from '@nestjs/common';
-
-// @Injectable()
-// export class AppService {
-//   getData(): { message: string } {
-//     return { message: 'Hello API' };
-//   }
-// }
-
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { Client, ClientKafka, Transport } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AppService implements OnModuleInit {
@@ -16,28 +8,28 @@ export class AppService implements OnModuleInit {
     transport: Transport.KAFKA,
     options: {
       client: {
-        clientId: 'client-producer',
+        clientId: 'client-service',
         brokers: ['localhost:29092'],
       },
       consumer: {
-        groupId: 'client-producer-consumer',
+        groupId: 'client-consumer', // must be unique
       },
     },
   })
   private kafkaClient!: ClientKafka;
 
   async onModuleInit() {
-    this.kafkaClient.subscribeToResponseOf('user_created');
+    // This is required to receive replies from Admin
+    this.kafkaClient.subscribeToResponseOf('admin_to_client');
     await this.kafkaClient.connect();
   }
 
-  async createUser(user: any) {
-    console.log('🚀 Client sending user_created event:', user);
-    return this.kafkaClient.send('user_created', user);
+  // Client → Admin
+  sendEventToAdmin(user: any) {
+    return this.kafkaClient.emit('client_to_admin', user);
+  }
+
+  requestFromAdmin(payload: any): Observable<any> {
+    return this.kafkaClient.send('admin_to_client', payload);
   }
 }
-
-
-
-
-
