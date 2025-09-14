@@ -5,14 +5,15 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 @Module({
-  // imports: [
-  //   // 👇 Serve the built dashboard frontend
-  //   ServeStaticModule.forRoot({
-  //     rootPath: join(__dirname, '..','..','..', 'dist', 'dashboard'),
-  //     exclude: ['/api*'], 
-  //   }),
-  // ],
+  imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', '..', 'dist', 'packages', 'dashboard'),
+      exclude: ['/api/(.*)'],
+    }),
+  ],
   controllers: [AppController],
+
   providers: [AppService],
 })
+
 export class AppModule {}

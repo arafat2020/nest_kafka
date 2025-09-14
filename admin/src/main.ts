@@ -5,6 +5,7 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix('api');
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.KAFKA,
@@ -22,6 +23,6 @@ async function bootstrap() {
   await app.startAllMicroservices();
   const port = process.env.PORT || 3001;
   await app.listen(port);
-  Logger.log(`🚀 Admin app running at http://localhost:${port}/api`);
+  Logger.log(`🚀 Admin app running at http://localhost:${port}`);
 }
 bootstrap();

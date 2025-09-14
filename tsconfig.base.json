@@ -17,6 +17,7 @@
     "strict": true,
     "target": "es2022",
     "customConditions": ["development"],
+    "baseUrl": ".",
     "paths": {
       "@nest-kafka-workspace/ui": ["ui/src/index.ts"]
     }
