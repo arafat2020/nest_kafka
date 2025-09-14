@@ -17,6 +17,18 @@
     },
     {
       "path": "./shared-kafkat"
+    },
+    {
+      "path": "./dashboard"
+    },
+    {
+      "path": "./myapp"
+    },
+    {
+      "path": "./ui"
+    },
+    {
+      "path": "./packages/testing"
     }
   ]
 }
